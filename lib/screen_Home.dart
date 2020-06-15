@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:peekUp/service_Network.dart';
 import 'package:peekUp/util_Style.dart';
@@ -10,6 +12,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<String> _pickUpLines = [];
   bool isLoading = false;
+
+  void addToList() async {
+    setState(() {
+      isLoading = true;
+    });
+    _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   Widget heading() {
     return Padding(
@@ -54,7 +66,14 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: kThemeColor1,
       body: Stack(
+        //  alignment: Alignment.topRight,
         children: <Widget>[
+          Positioned(
+            right: 0,
+            top: -95,
+            child: Transform.rotate(angle: pi * -0.12, child: ColorBash()),
+          ),
+          //Main card
           Positioned(
             bottom: 0,
             top: 87,
@@ -86,15 +105,10 @@ class _HomeState extends State<Home> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_circle),
           backgroundColor: kThemeColor1,
-          onPressed: () async {
-            setState(() {
-              isLoading = true;
-            });
-            _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
-            setState(() {
-              isLoading = false;
-            });
+          onPressed: () {
+            addToList();
           }),
     );
   }
@@ -120,6 +134,31 @@ class LineDisplayCard extends StatelessWidget {
       child: Text(
         pickUpLine ?? '',
         style: kBodyTextStyle,
+      ),
+    );
+  }
+}
+
+class ColorBash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //   constraints: BoxConstraints.tightFor(width: 300, height: 100),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+              height: 200,
+              width: 100,
+              color: Color(0xFF189F99).withOpacity(0.3)),
+          Container(
+            height: 200,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Color(0xFF6330C6).withOpacity(0.3),
+            ),
+          ),
+        ],
       ),
     );
   }
