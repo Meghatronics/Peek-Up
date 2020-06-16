@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:peekUp/screen_Home.dart';
 import 'package:peekUp/util_Style.dart';
 
-void main() => runApp(PeekUp());
+import 'util_Style.dart';
 
-class PeekUp extends StatelessWidget {
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,7 +14,8 @@ class PeekUp extends StatelessWidget {
         home: Home(),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: kThemeColor1,
+          primaryColor: skyblue2,
+          accentColor: pink1
         ));
   }
 }
