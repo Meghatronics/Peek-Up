@@ -30,9 +30,9 @@ class NetworkHandler {
     } else {
       throw HttpException('server error');
     }
-    }catch(e){
-      HttpException('check network provider');
+    }catch(e){  
+      throw HttpException('check network provider');
     }
-    return pickUpLines;
+    
   }
 }

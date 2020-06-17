@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
       isLoading = true;
     });
 
-try{    _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
+try{ _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
 }catch (e){
   scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
 }
@@ -57,6 +57,7 @@ try{    _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
     try{
     _pickUpLines = await NetworkHandler.getFivePeekUpLines();
     }catch(e){
+  
       scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
     }
     setState(() {
