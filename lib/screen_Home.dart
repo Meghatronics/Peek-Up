@@ -18,11 +18,12 @@ class _HomeState extends State<Home> {
     setState(() {
       isLoading = true;
     });
-
-try{ _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
-}catch (e){
-  scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
-}
+    try{
+    _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
+    }
+    catch(e){
+      scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
+    }
     setState(() {
       isLoading = false;
     });
@@ -56,8 +57,8 @@ try{ _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
     });
     try{
     _pickUpLines = await NetworkHandler.getFivePeekUpLines();
-    }catch(e){
-  
+    }
+    catch(e){
       scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
     }
     setState(() {
@@ -74,7 +75,7 @@ try{ _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffold,
+      key:scaffold,
       backgroundColor: kThemeColor1,
       body: Stack(
         //  alignment: Alignment.topRight,
@@ -102,7 +103,7 @@ try{ _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
                   heading(),
                   if (isLoading)
                     Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(backgroundColor: Theme.of(context).primaryColor,)
                     ),
                   for (int i = 0; i < _pickUpLines.length; i++)
                     LineDisplayCard(pickUpLine: _pickUpLines[i] ?? ''),
