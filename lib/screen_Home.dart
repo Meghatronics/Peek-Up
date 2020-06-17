@@ -12,12 +12,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<String> _pickUpLines = [];
   bool isLoading = false;
+  var scaffold=GlobalKey<ScaffoldState>();
 
   void addToList() async {
     setState(() {
       isLoading = true;
     });
-    _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
+
+try{    _pickUpLines.insert(0, await NetworkHandler.getAPeekUpLine());
+}catch (e){
+  scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
+}
     setState(() {
       isLoading = false;
     });
@@ -49,7 +54,11 @@ class _HomeState extends State<Home> {
     setState(() {
       isLoading = true;
     });
+    try{
     _pickUpLines = await NetworkHandler.getFivePeekUpLines();
+    }catch(e){
+      scaffold.currentState.showSnackBar(SnackBar(content: Text(e.toString()),));
+    }
     setState(() {
       isLoading = false;
     });
@@ -64,6 +73,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffold,
       backgroundColor: kThemeColor1,
       body: Stack(
         //  alignment: Alignment.topRight,
@@ -91,10 +101,7 @@ class _HomeState extends State<Home> {
                   heading(),
                   if (isLoading)
                     Center(
-                      child: Text(
-                        '. . .',
-                        style: kGreetingTextStyle,
-                      ),
+                      child: CircularProgressIndicator(),
                     ),
                   for (int i = 0; i < _pickUpLines.length; i++)
                     LineDisplayCard(pickUpLine: _pickUpLines[i] ?? ''),
